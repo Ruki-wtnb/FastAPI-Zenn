@@ -1,22 +1,17 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-
 import api.models.task as task_model
 import api.schemas.task as task_schema
 
-from typing import List, Tuple, Optional
-
 from sqlalchemy import select
 from sqlalchemy.engine import Result
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from typing import List, Tuple, Optional
 
+# 引数にAsyncSession, task_schema.TaskCreate型の変数を受け取る
 async def create_task(
-    db: AsyncSession, task_create: task_schema.TaskCreate
-) -> task_model.Task:
+    db: AsyncSession, task_create: task_schema.TaskCreate) -> task_model.Task:
+    
     task = task_model.Task(**task_create.dict())
-    print('-'*50)
-    print(task.id)
-    print(task.title)
-    print('-'*50)
     db.add(task)
     await db.commit()
     await db.refresh(task)
