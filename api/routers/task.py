@@ -17,9 +17,7 @@ async def list_tasks(db: AsyncSession = Depends(get_db)):
 # 引数にtask_schema.TaskCreateをとる。
 @router.post("/tasks", response_model=task_schema.TaskCreateResponse)
 async def create_task( task_body: task_schema.TaskCreate, db: AsyncSession = Depends(get_db) ):
-    print(task_body)
     return await task_crud.create_task(db, task_body)
-
 
 @router.put("/tasks/{task_id}", response_model=task_schema.TaskCreateResponse)
 async def update_task(
